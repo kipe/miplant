@@ -6,7 +6,7 @@ except ImportError:
 
 setup(
     name='miplant',
-    version='0.0.1',
+    version='0.0.2',
     description='A library for reading cheap plant monitoring sensors manufactured by Xiaomi.',
     author='Kimmo Huoman',
     author_email='kipenroskaposti@gmail.com',
