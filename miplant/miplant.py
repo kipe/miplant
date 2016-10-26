@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import gattlib
 import logging
 from math import isnan
