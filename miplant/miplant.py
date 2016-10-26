@@ -43,7 +43,7 @@ class MiPlant(object):
         try:
             received_bytes = bytearray(requester.read_by_handle(0x35)[0])
             self._temperature = float(received_bytes[1] * 256 + received_bytes[0]) / 10
-            self._light = float(received_bytes[4] * 256 + received_bytes[3])
+            self._light = received_bytes[4] * 256 + received_bytes[3]
             self._moisture = received_bytes[7]
             self._conductivity = received_bytes[9] * 256 + received_bytes[8]
             success = True

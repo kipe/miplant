@@ -16,10 +16,11 @@ for plant in MiPlant.discover():
 
 The sensors read 4 values:
 
-- temperature in degrees Celsius
-- light level in lux
-- moisture level in percent
-- conductivity in µS/cm (presented as "fertility" in many places, even the official app)
+- temperature in degrees Celsius (float, with 1 decimal precision)
+- light level in lux (integer)
+- moisture level in percent (integer)
+- conductivity in µS/cm (integer)
+    - presented as "fertility" in many places, even the official app
 
 The values are only read when the `MiPlant.read()` -function is called, or
 when one of the values is requested for the first time.
