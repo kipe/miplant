@@ -2,6 +2,11 @@
 
 A Python-library for reading cheap plant monitoring sensors manufactured by Xiaomi.
 
+## Installation
+
+```
+pip install miplant
+```
 
 ## Usage
 
