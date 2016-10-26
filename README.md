@@ -5,6 +5,7 @@ A Python-library for reading cheap plant monitoring sensors manufactured by Xiao
 
 ## Usage
 
+Scripts using the library need to be run as `root`, as using BLE typically requires it.
 ```python
 from miplant import MiPlant
 
@@ -27,8 +28,10 @@ when one of the values is requested for the first time.
 
 ## Notes
 
-- The sensors seem to have some kind of internal cache, so don't even bother reading them too frequently.
+- The scripts using this library need to be (at least typically) run as `root`,
+  as `gattlib` requires setting up some options for Bluetooth Low Energy.
 - Currently only tested with Python 2.7, but should work if `gattlib` works...
+- The sensors seem to have some kind of internal cache, so don't even bother reading them too frequently.
 
 ## Thanks
 
