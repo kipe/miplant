@@ -8,8 +8,8 @@ A Python-library for reading cheap plant monitoring sensors manufactured by Xiao
 ```python
 from miplant import MiPlant
 
-for miplant in MiPlant.discover():
-    print(miplant.temperature)
+for plant in MiPlant.discover():
+    print(plant.temperature)
 ```
 
 ## Overview
