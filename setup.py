@@ -11,8 +11,17 @@ setup(
     author='Kimmo Huoman',
     author_email='kipenroskaposti@gmail.com',
     url='https://github.com/kipe/miplant',
+    license='MIT',
     packages=[
         'miplant',
+    ],
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Home Automation',
+        'Topic :: Software Development :: Libraries',
     ],
     install_requires=[
         'gattlib>=0.20150805',
