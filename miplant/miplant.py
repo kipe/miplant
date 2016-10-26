@@ -5,6 +5,16 @@ from math import isnan
 
 class MiPlant(object):
     def __init__(self, address, device='hci0'):
+        '''
+        Initializes the MiPlant -object.
+
+        Parameters
+        ----------
+        address : string
+            The MAC-address of the device.
+        device : string
+            The bluetooth device to use for reading, defaults to 'hci0'.
+        '''
         self.address = address
         self.device = device
         self._log = logging.getLogger('MiPlant')
@@ -24,7 +34,7 @@ class MiPlant(object):
         -------
 
         success : boolean
-                  True if the data was successfully received, otherwise False.
+            True if the data was successfully received, otherwise False.
         '''
         success = False
 
@@ -72,6 +82,25 @@ class MiPlant(object):
 
     @staticmethod
     def discover(device='hci0', timeout=2):
+        '''
+        Discover devices.
+        Only does basic checking by comparing name of the device to the default name.
+
+        Parameters
+        ----------
+
+        device : string
+            The bluetooth device to use for discovery, defaults to 'hci0'.
+        timeout : int
+            Timeout for searching the devices, defaults to 2.
+
+
+        Returns
+        -------
+
+        devices : list of MiPlant -objects
+            A list of MiPlant -objects corresponding to the devices found.
+        '''
         return [
             MiPlant(address, device=device)
             for address, name in gattlib.DiscoveryService(device).discover(timeout).items()
