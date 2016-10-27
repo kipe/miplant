@@ -6,7 +6,7 @@ except ImportError:
 
 setup(
     name='miplant',
-    version='0.0.2',
+    version='0.1.0',
     description='A library for reading cheap plant monitoring sensors manufactured by Xiaomi.',
     author='Kimmo Huoman',
     author_email='kipenroskaposti@gmail.com',
@@ -24,5 +24,5 @@ setup(
         'Topic :: Software Development :: Libraries',
     ],
     install_requires=[
-        'gattlib>=0.20150805',
+        'bluepy>=1.0.5'
     ])

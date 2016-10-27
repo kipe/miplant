@@ -4,7 +4,10 @@ A Python-library for reading cheap plant monitoring sensors manufactured by Xiao
 
 ## Installation
 
-```
+```sh
+# There's a issue with bluepy-helper not being built in v1.0.5 in PyPi
+#   -> install bluepy from github
+pip install git+https://github.com/IanHarvey/bluepy.git
 pip install miplant
 ```
 

@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-import gattlib
+from bluepy import btle
 import logging
 from math import isnan
 
 
 class MiPlant(object):
-    def __init__(self, address, device='hci0'):
+    def __init__(self, address, interface_index=0):
         '''
         Initializes the MiPlant -object.
 
@@ -13,11 +13,11 @@ class MiPlant(object):
         ----------
         address : string
             The MAC-address of the device.
-        device : string
-            The bluetooth device to use for reading, defaults to 'hci0'.
+        interface_index : string
+            The bluetooth device index to use for reading, defaults to 0.
         '''
         self.address = address
-        self.device = device
+        self.interface_index = interface_index
         self._log = logging.getLogger('MiPlant')
         self._temperature = float('nan')
         self._light = float('nan')
@@ -37,21 +37,17 @@ class MiPlant(object):
         success : boolean
             True if the data was successfully received, otherwise False.
         '''
-        success = False
-
-        requester = gattlib.GATTRequester(self.address, True, self.device)
         try:
-            received_bytes = bytearray(requester.read_by_handle(0x35)[0])
+            received_bytes = bytearray(
+                btle.Peripheral(self.address, iface=self.interface_index).readCharacteristic(0x35)
+            )
             self._temperature = float(received_bytes[1] * 256 + received_bytes[0]) / 10
             self._light = received_bytes[4] * 256 + received_bytes[3]
             self._moisture = received_bytes[7]
             self._conductivity = received_bytes[9] * 256 + received_bytes[8]
-            success = True
-        except RuntimeError:
-            self.log.exception('Failed to read sensor.')
-        requester.disconnect()
-
-        return success
+            return True
+        except:
+            return False
 
     @property
     def temperature(self):
@@ -82,7 +78,7 @@ class MiPlant(object):
         return self._conductivity
 
     @staticmethod
-    def discover(device='hci0', timeout=2):
+    def discover(interface_index=0, timeout=2):
         '''
         Discover devices.
         Only does basic checking by comparing name of the device to the default name.
@@ -102,8 +98,10 @@ class MiPlant(object):
         devices : list of MiPlant -objects
             A list of MiPlant -objects corresponding to the devices found.
         '''
+
         return [
-            MiPlant(address, device=device)
-            for address, name in gattlib.DiscoveryService(device).discover(timeout).items()
-            if name == 'Flower mate'
+            MiPlant(device.addr, interface_index=interface_index)
+            for device in btle.Scanner(interface_index).scan(timeout) if len([
+                [1 for x in device.getScanData() if x[1] == 'Complete Local Name' and x[2] == 'Flower mate']
+            ]) != 0
         ]

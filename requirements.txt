@@ -1,1 +1,1 @@
-gattlib>=0.20150805
+git+https://github.com/IanHarvey/bluepy.git
