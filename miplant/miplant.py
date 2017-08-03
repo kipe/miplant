@@ -38,9 +38,9 @@ class MiPlant(object):
             True if the data was successfully received, otherwise False.
         '''
         try:
-            received_bytes = bytearray(
-                btle.Peripheral(self.address, iface=self.interface_index).readCharacteristic(0x35)
-            )
+            peripheral = btle.Peripheral(self.address, iface=self.interface_index)
+            peripheral.writeCharacteristic(0x33, bytearray([0xA0, 0x1F]), withResponse=True)
+            received_bytes = bytearray(peripheral.readCharacteristic(0x35))
             self._temperature = float(received_bytes[1] * 256 + received_bytes[0]) / 10
             self._light = received_bytes[4] * 256 + received_bytes[3]
             self._moisture = received_bytes[7]
