@@ -101,7 +101,6 @@ class MiPlant(object):
 
         return [
             MiPlant(device.addr, interface_index=interface_index)
-            for device in btle.Scanner(interface_index).scan(timeout) \
-            if device.addr.startswith('c4:7c') and \
-               len([[1 for x in device.getScanData() if x[1] == 'Complete Local Name' and x[2] == 'Flower mate']]) != 0
+            for device in btle.Scanner(interface_index).scan(timeout)
+            if device.addr.startswith('c4:7c') and len([[1 for x in device.getScanData() if x[1] == 'Complete Local Name' and x[2] == 'Flower mate']]) != 0
         ]
