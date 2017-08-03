@@ -19,6 +19,8 @@ class MiPlant(object):
         self.address = address
         self.interface_index = interface_index
         self._log = logging.getLogger('MiPlant')
+        self._battery = 0
+        self._firmware = ''
         self._temperature = float('nan')
         self._light = float('nan')
         self._moisture = float('nan')
@@ -40,6 +42,11 @@ class MiPlant(object):
         try:
             peripheral = btle.Peripheral(self.address, iface=self.interface_index)
             peripheral.writeCharacteristic(0x33, bytearray([0xA0, 0x1F]), withResponse=True)
+
+            received_bytes = bytearray(peripheral.readCharacteristic(0x38))
+            self._battery = received_bytes[0]
+            self._firmware = ''.join([chr(x) for x in received_bytes[1:7]])
+
             received_bytes = bytearray(peripheral.readCharacteristic(0x35))
             self._temperature = float(received_bytes[1] * 256 + received_bytes[0]) / 10
             self._light = received_bytes[4] * 256 + received_bytes[3]
@@ -48,6 +55,20 @@ class MiPlant(object):
             return True
         except:
             return False
+
+    @property
+    def battery(self):
+        ''' Get battery level in percents (?), calls read-function if read yet. '''
+        if self._battery == 0:
+            self.read()
+        return self._battery
+
+    @property
+    def firmware(self):
+        ''' Get firmware as a string, calls read-function if read yet. '''
+        if self._firmware == '':
+            self.read()
+        return self._firmware
 
     @property
     def temperature(self):
